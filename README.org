@@ -1,0 +1,29 @@
+#+TITLE: Debian Plus Sway
+
+Deployment script for a Debian desktop utilizing the Sway window
+manager. It is similar to my [[https://github.com/ludwigd/fedora-plus-sway][Sway environment for Fedora]].
+
+The package selection is somewhat opinionated and may not work for you
+personally (applications, tools) or even your system (firmware,
+printer drivers).
+
+
+* Usage
+
+1. Download the /Netinst/ ISO from [[https://www.debian.org][https://www.debian.org]]
+   and burn it to CD/DVD/USB.
+2. Follow the installation process. Under "Software selection"
+   (tasksel) make sure to uncheck everything, except "standard system
+   utilities".
+3. After the installation is complete, reboot into the freshly
+   installed system and log in as your normal user, i.e., not
+   ~root~. Make sure that you can use ~sudo~.
+4. Run the following commands to download the deployment script:
+
+   #+BEGIN_SRC
+wget https://raw.githubusercontent.com/ludwigd/fedora-plus-sway/main/install.sh -O install.sh
+chmod +x install.sh
+   #+END_SRC
+5. Run ~./install.sh~ to see available options.
+6. Run ~sudo ./install.sh <option>~ to perform the desired action.
+
