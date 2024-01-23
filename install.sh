@@ -5,6 +5,7 @@ set -eo  pipefail
 subtask_network () {
     apt install --assume-yes \
 	bluez \
+	firewalld \
 	network-manager
 }
 
