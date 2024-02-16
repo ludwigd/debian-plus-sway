@@ -21,7 +21,7 @@ printer drivers).
 4. Run the following commands to download the deployment script:
 
    #+BEGIN_SRC
-wget https://raw.githubusercontent.com/ludwigd/fedora-plus-sway/main/install.sh -O install.sh
+wget https://raw.githubusercontent.com/ludwigd/debian-plus-sway/main/install.sh -O install.sh
 chmod +x install.sh
    #+END_SRC
 5. Run ~./install.sh~ to see available options.
