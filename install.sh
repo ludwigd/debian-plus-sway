@@ -40,41 +40,39 @@ subtask_fonts () {
 	fonts-noto-color-emoji
 }
 
-# Very basic desktop, just sway and vim along with audio and wifi support
-task_basic_desktop () {
+# Desktop
+task_desktop () {
     subtask_network
     subtask_audio
-    
-    apt install --assume-yes \
-	sway \
-	swayidle \
-	swaylock \
-	vim \
-	xdg-desktop-portal-gtk \
-	xdg-desktop-portal-wlr \
-	xwayland
-}
-
-# An enhanced desktop environment
-task_enhanced_desktop () {
-    task_basic_desktop
     subtask_fonts
     subtask_printing
     
     apt install --assume-yes \
 	clipman \
+	desktop-base \
 	findutils \
+	fish \
 	gammastep \
+	git-core \
+	gnome-keyring \
 	i3status \
 	jq \
 	kanshi \
+	libpam-gnome-keyring \
 	light \
 	mate-polkit \
 	python3-i3ipc \
 	rofi \
+	sway \
+	swayidle \
+	swaylock \
+	vim \
 	wev \
 	x11-utils \
-	xdg-utils
+	xdg-desktop-portal-gtk \
+	xdg-desktop-portal-wlr \
+	xdg-utils \
+	xwayland
 
     LOCAL_BIN_DIR=/usr/local/bin
     mkdir -p $LOCAL_BIN_DIR
@@ -95,15 +93,11 @@ task_apps () {
 	borgbackup \
 	distrobox \
 	emacs \
-	fish \
 	flatpak \
-	git-core \
 	gnome-icon-theme \
-	gnome-keyring \
 	gnome-themes-extra \
 	htop \
 	imv \
-	libpam-gnome-keyring \
 	lynx \
 	neomutt \
 	podman \
@@ -198,7 +192,7 @@ task_publishing () {
 }
 
 # Updates
-task_update_system () {
+task_update () {
     apt update
     apt upgrade --assume-yes
     if [[ -f "/usr/bin/flatpak" ]]; then
@@ -223,6 +217,9 @@ task_dotfiles () {
     cd $HOME
     git --git-dir=$dotfiles --work-tree=$HOME checkout -f
     popd
+
+    # Link the default wallpaper
+    ln -s /usr/share/desktop-base/active-theme/wallpaper/contents/images/1920x1080.svg $HOME/background.png
 }
 
 usage () {
@@ -230,15 +227,13 @@ usage () {
     echo "  This script installs my Debian+Sway environment."
 
     echo -e "\\nAvailable tasks:"
-    echo "  basic                   - just sway and vim (incl. audio and wifi support)"
-    echo "  enhanced                - an enhanced environment compared to basic"
+    echo "  update                  - install updates (apt + flatpak)"
+    echo "  desktop                 - sway plus tools, network, audio, printing"
     echo "  apps                    - desktop apps"
     echo "  development             - some programming languages and tools"
     echo "  publishing              - an opinionated selection of TeXlive collections and tools"
-    echo "  everything              - enhanced + apps +  development + publishing"
-    echo "  update                  - install updates (dnf + flatpak)"
-    echo "  dotfiles                - install dotfiles (requires enhanced + apps)"
-    echo "  unattended              - update + everything + dotfiles + reboot"
+    echo "  dotfiles                - install dotfiles (requires desktop)"
+    echo "  everything              - all of the above + some vodoo + reboot"
 }
 
 assure_root () {
@@ -253,12 +248,9 @@ main () {
 
     if [[ -z "$cmd" ]]; then
 	usage
-    elif [[ $cmd == "basic" ]]; then
+    elif [[ $cmd == "desktop" ]]; then
 	assure_root
-	task_basic_desktop
-    elif [[ $cmd == "enhanced" ]]; then
-	assure_root
-	task_enhanced_desktop
+	task_desktop
     elif [[ $cmd == "apps" ]]; then
 	assure_root
 	task_apps
@@ -267,12 +259,6 @@ main () {
 	task_development
     elif [[ $cmd == "publishing" ]]; then
 	assure_root
-	task_publishing
-    elif [[ $cmd == "everything" ]]; then
-	assure_root
-	task_enhanced_desktop
-	task_apps
-	task_development
 	task_publishing
     elif [[ $cmd == "dotfiles" ]]; then
 	if [ $UID -ne 0 ]; then
@@ -283,11 +269,11 @@ main () {
 	fi
     elif [[ $cmd == "update" ]]; then
 	assure_root
-	task_update_system
-    elif [[ $cmd == "unattended" ]]; then
+	task_update
+    elif [[ $cmd == "everything" ]]; then
 	assure_root
-	task_update_system
-	task_enhanced_desktop
+	task_update
+	task_desktop
 	task_apps
 	task_development
 	task_publishing
