@@ -73,15 +73,6 @@ task_desktop () {
         xdg-desktop-portal-wlr \
         xdg-utils \
         xwayland
-
-    LOCAL_BIN_DIR=/usr/local/bin
-    mkdir -p $LOCAL_BIN_DIR
-    
-    wget https://raw.githubusercontent.com/ludwigd/swaycaffeine/main/swaycaffeine -O $LOCAL_BIN_DIR/swaycaffeine
-    chmod +x $LOCAL_BIN_DIR/swaycaffeine
-    
-    wget https://raw.githubusercontent.com/ludwigd/yaws/main/yaws -O $LOCAL_BIN_DIR/yaws
-    chmod +x $LOCAL_BIN_DIR/yaws
 }
 
 # Extra desktop apps
