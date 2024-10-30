@@ -23,8 +23,6 @@ subtask_printing () {
     apt install --assume-yes \
         cups \
         ghostscript \
-        hplip \
-        libsane-hpaio \
         system-config-printer
 }
 
