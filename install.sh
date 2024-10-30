@@ -46,6 +46,7 @@ task_desktop () {
     subtask_printing
     
     apt install --assume-yes \
+        brightnessctl \
         clipman \
         desktop-base \
         findutils \
@@ -57,7 +58,6 @@ task_desktop () {
         jq \
         kanshi \
         libpam-gnome-keyring \
-        light \
         mate-polkit \
         python3-i3ipc \
         rofi \
